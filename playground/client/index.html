@@ -17,14 +17,18 @@
 				color: teal;
 				text-decoration: none;
 			}
-			a:hover{border-bottom:3px solid teal}
+			a:hover { border-bottom: 3px solid teal }
 			#bottombar {
 				position: fixed;
 				bottom: 0;
-				left: 50px;
+				left: 0px;
+				padding-left: 50px;
 				width: 100%;
+				background-color: white;
 				color: #111;
+				height: 50px;
 			}
+			#bytecode, #output { margin-bottom: 60px }
 			.container {
 				display: flex;
 				flex-wrap: wrap;
@@ -32,7 +36,7 @@
 			}
 
 			.item {
-				width: 48%;
+				width: 49%;
 				height: 100px;
 				margin-bottom: 2%;
 			}
@@ -56,6 +60,25 @@
 				border: 1px solid black;
 				font-family: 'Fira Code', monospace;
 			}
+
+			.spin:hover {
+				display: inline-block;
+				animation: spin 1s infinite linear;
+				cursor: default;
+			}
+
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+
+			@keyframes twist-up {
+				to {
+					transform: rotateX(360deg);
+				}
+			}
+			v
 		</style>
 		<script>
 			const server = location.origin + '/run'
@@ -92,7 +115,7 @@
 				}
 			})
 		</script>
-		<h1>Kiwi playground 🥝</h1>
+		<h1>Kiwi playground <span class="spin">🥝</span> </h1>
 		<div id="editor"></div>
 		<button id="run" type="submit">Run</button>
 		<div class="container">

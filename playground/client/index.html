@@ -1,366 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Kiwi playground</title>
-    <script src="assets/codemirror.js"></script>
-    <link rel="stylesheet" href="assets/codemirror.css">
-    <script src="assets/javascript.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <noscript><img src="https://skynet.frankpf.com/ingress/129f32a9-abc9-46cb-b001-22370e1c01ac/pixel.gif"></noscript> <script src="https://skynet.frankpf.com/ingress/129f32a9-abc9-46cb-b001-22370e1c01ac/script.js"></script>
+	<head>
+		<title>Kiwi playground</title>
+		<script src="assets/codemirror.js"></script>
+		<link rel="stylesheet" href="assets/codemirror.css" />
+		<script src="assets/javascript.js"></script>
+			<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Fira+Sans&display=swap" rel="stylesheet">
+		<noscript
+			><img src="https://skynet.frankpf.com/ingress/129f32a9-abc9-46cb-b001-22370e1c01ac/pixel.gif"
+		/></noscript>
+		<script src="https://skynet.frankpf.com/ingress/129f32a9-abc9-46cb-b001-22370e1c01ac/script.js"></script>
+	</head>
+	<body>
+		<style>
+			a{
+				color: teal;
+				text-decoration: none;
+			}
+			a:hover{border-bottom:3px solid teal}
+			#bottombar {
+				position: fixed;
+				bottom: 0;
+				left: 50px;
+				width: 100%;
+				color: #111;
+			}
+			.container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+			}
 
-</head>
-<body>
-    <style>
-      .container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
+			.item {
+				width: 48%;
+				height: 100px;
+				margin-bottom: 2%;
+			}
 
-.item {
-  width: 48%;
-  height: 100px;
-  margin-bottom: 2%;
-}
-        /* CSS copy pasted from nim playground ¯\_(ツ)_/¯ */
-  body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-  background-color: #171921;
-  color: #fff;
-}
+			body {
+				margin: 0 50px;
+				font-family: 'Fira Sans', sans-serif;
+			}
 
-h1, h2, h3, h4, h5, h6 {
-  color: #36cb18;
-  font-weight: normal;
-}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				color: black;
+				font-weight: normal;
+			}
 
-#ROOT {
-  display:flex;
-  flex-direction: column;
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
-}
-
-.headerbar {
-  height: 2.4em;
-}
-
-.headerbar > a {
-  text-decoration: none;
-}
-
-.headerbar > a:last-child {
-  float: right;
-}
-
-.headerbar > a > img {
-  padding: 0.5em;
-  padding-left: 3em;
-  height: 1.2em;
-}
-
-.headerbar > a > span {
-  color: lightgray;
-  margin: 1em;
-  font-size:0.8em;
-}
-
-.headerbar > a:first-child > span {
-  color: #ffe953;
-  font-family: "Titillium Web";
-  font-weight: normal;
-  font-size: 1.2em;
-  position: relative;
-  bottom: 0.5em;
-}
-
-.optionsbar {
-  position: absolute;
-  top: 2.4em;
-  right: 0px;
-  height: 48px;
-  margin-right: 1em;
-  font-size: 16px;
-}
-
-.optionsbar input[type=number] {
-  width: 3em;
-}
-
-.optionsbar select, input[type=number] {
-  background-color: #ccc;
-  border-radius: 3px;
-  border: 3px solid #ccc;
-}
-
-.optionsbar > span {
-  display: inline-block;
-  margin-right: 0.5em;
-}
-
-.CodeMirror {
-  height: calc(100% - 72px);
-  margin-top: 72px;
-}
-
-@media only screen and (min-width: 768px) {
-  .headerbar {
-    height: 2.8em;
-  }
-
-  .headerbar > a > img {
-    height: 1.5em;
-  }
-
-  .headerbar > a > span {
-    font-size: 1em;
-  }
-
-  .headerbar > a:first-child > span {
-    font-size: 1.5em;
-    bottom: 0.36em;
-    padding-left: 0.5em;
-  }
-
-  .optionsbar {
-    top: 2.8em;
-  }
-}
-
-@media only screen and (min-width: 574px) {
-  .optionsbar {
-    height: 24px;
-  }
-
-  .CodeMirror {
-    height: calc(100% - 24px);
-    margin-top: 24px;
-  }
-}
-
-@media only screen and (min-width: 385px) and (max-width: 574px) {
-  .optionsbar {
-    height: 24px;
-  }
-
-  .CodeMirror {
-    height: calc(100% - 48px);
-    margin-top: 48px;
-  }
-}
-
-.mainarea {
-  display:flex;
-  flex-direction:row;
-  flex-wrap:wrap;
-  flex-grow: 1;
-}
-
-.mainarea > .column:first-child:not(:last-child) {
-  border-right: 0.5em solid #282a36;
-}
-
-.column {
-  display:flex;
-  flex-direction:column;
-}
-
-.base {
-  flex-grow: 1;
-  flex-basis: 49%;
-}
-
-.content {
-  padding: 1.5em;
-}
-
-@media only screen and (min-width: 1300px) {
-  .base {
-    min-width: 600px;
-  }
-
-  .content, .editor {
-    overflow: auto;
-  }
-}
-
-section {
-  padding: 2em;
-  padding-top: 1em;
-  font-size:110%;
-  color: #ddd;
-}
-
-a {
-  color: #ffe953;
-}
-
-code, pre {
-  background-color: #282a36;
-  color: #fff;
-  border: 2px solid #282a36;
-  border-radius: 5px;
-}
-
-.grow, .small {
-  flex-grow: 1;
-}
-
-.small {
-  flex-basis: 33%;
-}
-
-.big {
-  flex-grow: 2 !important;
-  flex-basis: 66%;
-}
-
-.bar {
-  background-color: #282a36;
-  text-align: right;
-}
-
-.bar > :first-child {
-  float:left;
-}
-
-.bar > span {
-  line-height: 1.5em;
-  margin: 0.4em;
-}
-
-.monospace {
-  font-family: 'Inconsolata', monospace;
-  border: inherit;
-  background-color: inherit;
-}
-
-.editor {
-  background-color: #282a36;
-}
-
-span.hint {
-  color: #66d9ef;
-}
-
-span.brackets {
-  color: #50fa7b;
-}
-
-span.error {
-  color: red;
-}
-
-.button {
-  display: inline-block;
-  padding: 0.2em 0.9em;
-  line-height:1.5em;
-  margin: 0.2em;
-  text-decoration: none;
-  font-size: 1em;
-  cursor: pointer;
-  border: 0px;
-  height: 2em;
-  color: #333;
-  border-radius: 4px;
-}
-
-.button.main {
-  background: #ffe953;
-}
-
-.button.main:hover {
-  background: #ffe220;
-}
-
-.button.other {
-  background: #ccc;
-}
-
-.button.is-loading {
-  color: transparent !important;
-  pointer-events: none;
-}
-
-.button.is-loading:after {
-  animation: spinAround 500ms infinite linear;
-  border: 2px solid #333;
-  border-radius: 290486px;
-  border-right-color: transparent;
-  border-top-color: transparent;
-  content: "";
-  display: block;
-  height: 1em;
-  position: relative;
-  width: 1em;
-  left: calc(50% - (1em / 2));
-  top: -1.3em;
-}
-
-button .buttonhint {
-  font-size: smaller;
-  opacity: 0.7;
-}
-
-@keyframes spinAround {
-  from {
-    transform: rotate(0deg); }
-  to {
-    transform: rotate(359deg); } }
-    </style>
-<script>
-    const server = location.origin + '/run'
-    async function submit(code) {
-        console.log('sending code', code, typeof code)
-        const res = await fetch(server, {
-            method: 'post',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({
-                code
-            })
-        })
-        return res.json()
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-        const editor = document.getElementById('editor')
-        const codeMirror = CodeMirror(editor, {
-            value: '("aaa" + "bbb") + "c" == "a" + "aabbb" + "c";',
-            mode: 'javascript',
-            lineNumbers: true,
-            tabSize: 4,
-        })
-        run.onclick = async (ev) => {
-            const code = codeMirror.getValue()
-            output.innerText = 'Loading...'
-            const result = await submit(code)
-            if (result.ok) {
-              console.log('got output', result.output, typeof result.output)
-              output.innerText = result.output
-              status.innerText = `status: ${result.status}`
-              bytecode.innerText = result.bytecode
-            } else {
-              output.innerText = 'server error'
-            }
-        }
-    })
-</script>
-    <h1>Kiwi playground 🥝</h1>
-    <div id="editor"></div>
-    <button id="run" type="submit">Run</button>
-    <div class="container">
-    <div class="item">
-      <h1>Output</h1>
-      <div id="output"></div>
-    </div>
-    <div class="item">
-      <h1>Bytecode</h1>
-      <div id="bytecode"></div>
-    </div>
-    </div>
-    <div id="status"></div>
-</body>
+			.CodeMirror {
+				border: 1px solid black;
+				font-family: 'Fira Code', monospace;
+			}
+		</style>
+		<script>
+			const server = location.origin + '/run'
+			async function submit(code) {
+				const res = await fetch(server, {
+					method: 'post',
+					headers: {'content-type': 'application/json'},
+					body: JSON.stringify({
+						code,
+					}),
+				})
+				return res.json()
+			}
+			document.addEventListener('DOMContentLoaded', () => {
+				const editor = document.getElementById('editor')
+				const codeMirror = CodeMirror(editor, {
+					value: '("aaa" + "bbb") + "c" == "a" + "aabbb" + "c";\n\n\n',
+					mode: 'javascript',
+					lineNumbers: true,
+					tabSize: 4,
+				})
+				run.onclick = async ev => {
+					const code = codeMirror.getValue()
+					output.innerText = 'Loading...'
+					const result = await submit(code)
+					if (result.ok) {
+						console.log('got output', result.output, typeof result.output)
+						output.innerText = result.output
+						status.innerText = `status: ${result.status}`
+						bytecode.innerText = result.bytecode
+					} else {
+						output.innerText = 'server error'
+					}
+				}
+			})
+		</script>
+		<h1>Kiwi playground 🥝</h1>
+		<div id="editor"></div>
+		<button id="run" type="submit">Run</button>
+		<div class="container">
+			<div class="item">
+				<h1>Output</h1>
+				<div id="output"></div>
+			</div>
+			<div class="item">
+				<h1>Bytecode</h1>
+				<div id="bytecode"></div>
+			</div>
+		</div>
+		<div id="status"></div>
+		<div id="bottombar"><p>Built by <a href="https://frankpf.com">Frank Filho</a><p></div>
+	</body>
 </html>

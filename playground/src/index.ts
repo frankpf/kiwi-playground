@@ -50,9 +50,9 @@ async function tmpdir() {
 async function compile(code: string, bytecode: boolean) {
 	const dir = await tmpdir()
 	await fs.writeFile(`${dir}/input.kiwi`, code, 'utf8')
-	let compileCmd = `bash -c "node /build/kiwi/dist/src/index.js /usercode/input.kiwi`
+	let compileCmd = `bash -c "node /build/kiwi/dist/src/index.js --file /usercode/input.kiwi`
 	if (bytecode === false) {
-		compileCmd += ` | /build/kiwi/src2/kiwi"`
+		compileCmd += ` | /build/kiwi/vm/kiwi"`
 	} else {
 		compileCmd += `"`
 	}

@@ -97,8 +97,8 @@
 				const codeMirror = CodeMirror(editor, {
 					value:
 `let a = "hello";
-let b = "world";
-print a + " " + b + "!";
+a = a + " world!";
+print a;
 `,
 					mode: 'javascript',
 					lineNumbers: true,

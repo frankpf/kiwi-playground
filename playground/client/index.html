@@ -95,7 +95,11 @@
 			document.addEventListener('DOMContentLoaded', () => {
 				const editor = document.getElementById('editor')
 				const codeMirror = CodeMirror(editor, {
-					value: '("aaa" + "bbb") + "c" == "a" + "aabbb" + "c";\n\n\n',
+					value:
+`let a = "hello";
+let b = "world";
+print a + " " + b + "!";
+`,
 					mode: 'javascript',
 					lineNumbers: true,
 					tabSize: 4,

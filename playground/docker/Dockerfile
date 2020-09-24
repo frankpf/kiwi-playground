@@ -5,12 +5,12 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 
 WORKDIR /build
-ADD https://api.github.com/repos/frankpf/kiwi/git/refs/heads/vm /tmp/bustcache
-RUN git clone --single-branch --branch vm https://github.com/frankpf/kiwi.git
+ADD https://api.github.com/repos/frankpf/kiwi/git/refs/heads/main /tmp/bustcache
+RUN git clone --single-branch --branch main https://github.com/frankpf/kiwi.git
 RUN cd kiwi
 WORKDIR /build/kiwi
 RUN npm i && npm run-script tsc
-RUN cd src2 && nimble build --y
+RUN cd vm && nimble build --y
 
 WORKDIR /playground
 RUN mkdir /usercode

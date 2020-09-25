@@ -9,7 +9,7 @@ ADD https://api.github.com/repos/frankpf/kiwi/git/refs/heads/main /tmp/bustcache
 RUN git clone --single-branch --branch main https://github.com/frankpf/kiwi.git
 RUN cd kiwi
 WORKDIR /build/kiwi
-RUN npm i && npm run-script tsc
+RUN npm i && npm run-script tsc || true
 RUN cd vm && nimble build --y
 
 WORKDIR /playground

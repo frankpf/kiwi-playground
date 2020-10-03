@@ -19,6 +19,7 @@
 			}
 			a:hover { border-bottom: 3px solid teal }
 			#diagnosticMsg { display: inline }
+			#codeSelector { margin-bottom: 10px }
 			#bottombar {
 				position: fixed;
 				bottom: 0;
@@ -29,6 +30,7 @@
 				color: #111;
 				height: 50px;
 			}
+			#editor { margin-bottom: 10px }
 			#bytecode, #output { margin-bottom: 60px }
 			.container {
 				display: flex;
@@ -90,32 +92,26 @@
 				})
 				return res.json()
 			}
-			document.addEventListener('DOMContentLoaded', () => {
+			document.addEventListener('DOMContentLoaded', async () => {
+				const metadata = new URLSearchParams(location.hash.slice(1))
+				const src = metadata.get('src')
+				let value
+				if (src !== null) {
+					value = atob(src)
+				} else {
+					value = await loadSample('samples/fibonacci.kiwi')
+				}
+
 				const editor = document.getElementById('editor')
 				const codeMirror = CodeMirror(editor, {
-					value:
-`fun fib(n) {
-   if n < 2 {
-     n
-   } else {
-     fib(n - 1) + fib(n - 2)
-   }
-}
-
-let i = 0
-while i < 10 {
-  print fib(i)
-  i = i + 1
-}
-print "Done!"
-`,
+					value,
 					mode: 'javascript',
 					lineNumbers: true,
 					tabSize: 4,
 				})
 				run.onclick = async ev => {
 					const code = codeMirror.getValue()
-					output.innerHTML = 'Loading...<span class="loading">🥝</span>'
+					output.innerHTML = '<span style="font-size: 1.5em">Loading...<span class="loading">🥝</span></span>'
 					const result = await submit(code)
 					if (result.ok) {
 						console.log('got output', result.output, typeof result.output)
@@ -126,12 +122,15 @@ print "Done!"
 						output.innerText = 'server error'
 					}
 				}
+				genPermalink.onclick = ev => {
+					ev.preventDefault()
+					const base64EncodedSource = btoa(codeMirror.getValue())
+					const link = location.origin + '/#src=' + base64EncodedSource
+					location.href = link
+				}
 				codeSelector.onchange = async ev => {
 					const {value} = event.target
-					diagnosticMsg.innerHTML = 'Fetching sample...<span class="loading">🥝</span>'
-					await sleep(550)
 					const sampleText = await loadSample(value)
-					diagnosticMsg.innerText = ''
 					codeMirror.setValue(sampleText)
 				}
 
@@ -140,8 +139,11 @@ print "Done!"
 				}
 
 				async function loadSample(path) {
+					diagnosticMsg.innerHTML = '<span class="loading">🥝</span>'
 					const res = await fetch(location.origin + '/' + path)
-					return res.text()
+					const text = await res.text()
+					diagnosticMsg.innerText = ''
+					return text
 				}
 			})
 		</script>
@@ -154,6 +156,7 @@ print "Done!"
 		<div id="diagnosticMsg"></div>
 		<div id="editor"></div>
 		<button id="run" type="submit">Run</button>
+		<a href="#" id="genPermalink">Get permalink</a>
 		<div class="container">
 			<div class="item">
 				<h1>Output</h1>

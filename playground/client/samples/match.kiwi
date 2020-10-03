@@ -6,4 +6,4 @@ let msg = match fruit {
 	_ => "Unknown fruit :("
 }
 
-print msg;
+print msg

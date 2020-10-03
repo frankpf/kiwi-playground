@@ -1,0 +1,8 @@
+let fruit = "apple";
+
+let msg = match fruit {
+	"apple" | "banana" => "Valid fruit"
+	_ => "Unknown fruit :("
+}
+
+print msg;

@@ -5,7 +5,7 @@
 		<script src="assets/codemirror.js"></script>
 		<link rel="stylesheet" href="assets/codemirror.css" />
 		<script src="assets/javascript.js"></script>
-			<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Fira+Sans&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Fira+Sans&display=swap" rel="stylesheet">
 		<noscript>
 			<img src="https://skynet.frankpf.com/ingress/129f32a9-abc9-46cb-b001-22370e1c01ac/pixel.gif">
 		</noscript>
@@ -13,11 +13,12 @@
 	</head>
 	<body>
 		<style>
-			a{
+			a {
 				color: teal;
 				text-decoration: none;
 			}
 			a:hover { border-bottom: 3px solid teal }
+			#diagnosticMsg { display: inline }
 			#bottombar {
 				position: fixed;
 				bottom: 0;
@@ -34,18 +35,15 @@
 				flex-wrap: wrap;
 				justify-content: space-between;
 			}
-
 			.item {
 				width: 49%;
 				height: 100px;
 				margin-bottom: 2%;
 			}
-
 			body {
 				margin: 0 50px;
 				font-family: 'Fira Sans', sans-serif;
 			}
-
 			h1,
 			h2,
 			h3,
@@ -55,30 +53,30 @@
 				color: black;
 				font-weight: normal;
 			}
-
 			.CodeMirror {
 				border: 1px solid black;
 				font-family: 'Fira Code', monospace;
 			}
-
+			.loading {
+				display: inline-block;
+				animation: spin 1s infinite linear;
+				cursor: default;
+			}
 			.spin:hover {
 				display: inline-block;
 				animation: spin 1s infinite linear;
 				cursor: default;
 			}
-
 			@keyframes spin {
 				to {
 					transform: rotate(360deg);
 				}
 			}
-
 			@keyframes twist-up {
 				to {
 					transform: rotateX(360deg);
 				}
 			}
-			v
 		</style>
 		<script>
 			const server = location.origin + '/run'
@@ -117,7 +115,7 @@ print "Done!"
 				})
 				run.onclick = async ev => {
 					const code = codeMirror.getValue()
-					output.innerText = 'Loading...'
+					output.innerHTML = 'Loading...<span class="loading">🥝</span>'
 					const result = await submit(code)
 					if (result.ok) {
 						console.log('got output', result.output, typeof result.output)
@@ -128,9 +126,32 @@ print "Done!"
 						output.innerText = 'server error'
 					}
 				}
+				codeSelector.onchange = async ev => {
+					const {value} = event.target
+					diagnosticMsg.innerHTML = 'Fetching sample...<span class="loading">🥝</span>'
+					await sleep(550)
+					const sampleText = await loadSample(value)
+					diagnosticMsg.innerText = ''
+					codeMirror.setValue(sampleText)
+				}
+
+				async function sleep(ms) {
+					return new Promise(resolve => setTimeout(resolve, ms))
+				}
+
+				async function loadSample(path) {
+					const res = await fetch(location.origin + '/' + path)
+					return res.text()
+				}
 			})
 		</script>
 		<h1>Kiwi playground <span class="spin">🥝</span> </h1>
+		<select id="codeSelector">
+			<option value="samples/fibonacci.kiwi">Fibonacci</option>
+			<option value="samples/match.kiwi">Match expressions!</option>
+			<option value="samples/while.kiwi">While loop</option>
+		</select>
+		<div id="diagnosticMsg"></div>
 		<div id="editor"></div>
 		<button id="run" type="submit">Run</button>
 		<div class="container">

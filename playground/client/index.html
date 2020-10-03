@@ -96,11 +96,11 @@
 				const editor = document.getElementById('editor')
 				const codeMirror = CodeMirror(editor, {
 					value:
-`let fib = fun f(n) {
+`fun fib(n) {
    if n < 2 {
      n
    } else {
-     f(n - 1) + f(n - 2)
+     fib(n - 1) + fib(n - 2)
    }
 }
 

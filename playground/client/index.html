@@ -97,7 +97,7 @@
 				const src = metadata.get('src')
 				let value
 				if (src !== null) {
-					value = atob(src)
+					value = decodeURIComponent(src)
 				} else {
 					value = await loadSample('samples/fibonacci.kiwi')
 				}
@@ -124,8 +124,8 @@
 				}
 				genPermalink.onclick = ev => {
 					ev.preventDefault()
-					const base64EncodedSource = btoa(codeMirror.getValue())
-					const link = location.origin + '/#src=' + base64EncodedSource
+					const encodedSrc = encodeURIComponent(codeMirror.getValue())
+					const link = location.origin + '/#src=' + encodedSrc
 					location.href = link
 				}
 				codeSelector.onchange = async ev => {
@@ -150,8 +150,8 @@
 		<h1>Kiwi playground <span class="spin">🥝</span> </h1>
 		<select id="codeSelector">
 			<option value="samples/fibonacci.kiwi">Fibonacci</option>
-			<option value="samples/match.kiwi">Match expressions!</option>
 			<option value="samples/while.kiwi">While loop</option>
+			<option value="samples/match.kiwi">Match expressions!</option>
 		</select>
 		<div id="diagnosticMsg"></div>
 		<div id="editor"></div>

@@ -1,5 +1,5 @@
 // Oops this is not implemented yet :(
-let fruit = "apple";
+let fruit = "apple"
 
 let msg = match fruit {
 	"apple" | "banana" => "Valid fruit"

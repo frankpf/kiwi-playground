@@ -52,7 +52,7 @@ async function compile(code: string, bytecode: boolean) {
 	await fs.writeFile(`${dir}/input.kiwi`, code, 'utf8')
 	let compileCmd = `bash -c "node /build/kiwi/dist/src/index.js --file /usercode/input.kiwi`
 	if (bytecode === false) {
-		compileCmd += ` | /build/kiwi/vm/kiwi"`
+		compileCmd += ` | /build/kiwi/backend/kiwi"`
 	} else {
 		compileCmd += `"`
 	}

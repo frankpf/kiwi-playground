@@ -10,7 +10,7 @@ RUN git clone --single-branch --branch main https://github.com/frankpf/kiwi.git
 RUN cd kiwi
 WORKDIR /build/kiwi
 RUN npm i && npm run-script tsc || true
-RUN cd vm && nimble build -d:release --y
+RUN cd backend && nimble build -d:release --y
 
 WORKDIR /playground
 RUN mkdir /usercode
